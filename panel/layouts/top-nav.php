@@ -1,5 +1,8 @@
-<link rel="stylesheet" href="../../assets/css/bootstrap.min.css" media="all" type="text/css">
-<link rel="stylesheet" href="../../assets/css/style.css" media="all" type="text/css">
+<?php
+require_once '../../functions/helpers.php';
+?>
+<link rel="stylesheet" href="<?php assets('../../assets/css/bootstrap.min.css') ?>" media="all" type="text/css">
+<link rel="stylesheet" href="<?php assets('../../assets/css/style.css') ?>" media="all" type="text/css">
 <nav class="navbar navbar-expand-lg navbar-dark bg-red">
     <a class="navbar-brand" href="">PHP tutorial panel</a>
     <section class="collapse navbar-collapse" id="navbarSupportedContent"></section>
