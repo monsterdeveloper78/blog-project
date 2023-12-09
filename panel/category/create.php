@@ -2,14 +2,15 @@
 require_once '../../functions/helpers.php';
 require_once '../../functions/pdo_connection.php';
 
-if (isset($_POST['name']) && $_POST['name'] !== ''){
+
+if(isset($_POST['name']) && $_POST['name'] !== ''){
+
     global $pdo;
-    $query = 'INSERT INTO php_project.categories SET name = ?, created_at = NOW(); ';
-    $statment = $pdo->prepare($query);
-    $statment->execute([$_POST['name']]);
+    $query = 'INSERT INTO php_project.categories SET name = ?, created_at = NOW() ;';
+    $statement = $pdo->prepare($query);
+    $statement->execute([$_POST['name']]);
     redirect('panel/category');
 }
-
 
 ?>
 <!DOCTYPE html>
