@@ -8,6 +8,7 @@ if(
     &&  isset($_POST['body']) && $_POST['body'] !== ''
     &&  isset($_FILES['image']) && $_FILES['image']['name'] !== '' ){
 
+
     global $pdo;
 
     $query = 'SELECT * FROM php_project.categories WHERE id = ?';
@@ -15,21 +16,25 @@ if(
     $statement->execute([$_POST['cat_id']]);
     $category = $statement->fetch();
 
-    $allowedMimes = ['png', 'jpeg', 'jpg', 'gif'];
+    $allowedMimes = ['PNG', 'jpeg', 'jpg', 'gif', 'png', 'JPEG', 'JPG', 'GIF'];
     $imageMime = pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
     if(!in_array($imageMime, $allowedMimes))
     {
         redirect('panel/post');
     }
     $basePath = dirname(dirname(__DIR__));
+
     $image = '/assets/images/posts/' . date("Y_m_d_H_i_s") . '.' . $imageMime;
     $image_upload = move_uploaded_file($_FILES['image']['tmp_name'], $basePath . $image);
 
     if($category !== false && $image_upload !== false)
     {
+
         $query = 'INSERT INTO php_project.posts SET title = ?, cat_id = ?, body = ?, image = ?, created_at = NOW() ;';
         $statement = $pdo->prepare($query);
         $statement->execute([$_POST['title'], $_POST['cat_id'], $_POST['body'], $image]);
+
+
     }
 
     redirect('panel/post');

@@ -1,6 +1,9 @@
 <?php
 require_once '../../functions/helpers.php';
 require_once '../../functions/pdo_connection.php';
+
+
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -26,7 +29,7 @@ require_once '../../functions/pdo_connection.php';
 
                 <section class="mb-2 d-flex justify-content-between align-items-center">
                     <h2 class="h4">Articles</h2>
-                    <a href="<?= url('panel/post/create.php')  ?>" class="btn btn-sm btn-success">Create</a>
+                    <a href="<?= url('panel/post/create.php') ?>" class="btn btn-sm btn-success">Create</a>
                 </section>
 
                 <section class="table-responsive">
@@ -43,45 +46,38 @@ require_once '../../functions/pdo_connection.php';
                         </tr>
                         </thead>
                         <tbody>
-
                         <?php
-                            global $pdo;
-                            $query = " ";
-                            $query = "SELECT php_project.posts.*, php_project.categories.name AS category_name FROM php_project.posts LEFT JOIN php_project.categories ON php_project.posts.cat_id = php_project.categories.id";
-                            $statement = $pdo->prepare($query);
-                            $statement->execute();
-                            $posts = $statement->fetchAll();
-
-                            foreach ($posts as $post) {
-
-                        ?>
-
+                        global $pdo;
+                        $query = "SELECT php_project.posts.*, php_project.categories.name AS category_name FROM php_project.posts LEFT JOIN php_project.categories ON php_project.posts.cat_id = php_project.categories.id";
+                        $statement = $pdo->prepare($query);
+                        $statement->execute();
+                        $posts = $statement->fetchAll();
+                        foreach ($posts as $post) {
+                            ?>
                             <tr>
                                 <td><?= $post->id ?></td>
                                 <td>
-                                    <img alt="" style="width: 90px;" src="">
+                                    <img style="width: 90px;" src="<?= assets($post->image) ?>">
                                 </td>
                                 <td><?= $post->title ?></td>
                                 <td><?= $post->category_name ?></td>
-                                <td><?= substr($post->body, 0, 30 ) . ' ...' ?></td>
+                                <td><?= substr($post->body, 0 ,30) . ' ...'  ?></td>
                                 <td>
-                                    <?php if ($post->status == 10){ ?>
+                                    <?php if($post->status == 10) { ?>
                                         <span class="text-success">enable</span>
                                     <?php } else { ?>
                                         <span class="text-danger">disable</span>
                                     <?php } ?>
                                 </td>
                                 <td>
-                                    <a href="" class="btn btn-warning btn-sm">Change status</a>
-                                    <a href="" class="btn btn-info btn-sm">Edit</a>
-                                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="<?= url('panel/post/change-status?post_id=' . $post->id) ?>" class="btn btn-warning btn-sm">Change status</a>
+                                    <a href="<?= url('panel/post/edit.php?post_id=' . $post->id) ?>" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="<?= url('panel/post/delete.php?post_id=' . $post->id) ?>" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
 
-
-                        <?php
-                            }
-                        ?>
+                            <?php
+                        } ?>
 
                         </tbody>
                     </table>
